@@ -8,6 +8,8 @@ router.get("/", (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
   Product.findAll({
+    // include: used to include the Category and Tag model data in the response from the Product model
+    // attributes: used to specify which columns to return from the Category and Tag models
     include: [
       {
         model: Category,
@@ -19,6 +21,7 @@ router.get("/", (req, res) => {
       },
     ],
   })
+  // dbProductData is the response from the Product model
     .then((dbProductData) => res.json(dbProductData))
     .catch((err) => {
       console.log(err);
@@ -30,10 +33,12 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
+
   Product.findOne({
     where: {
       id: req.params.id,
     },
+    // include: used to include the Category and Tag model data in the response from the Product model
     include: [
       {
         model: Category,
@@ -45,6 +50,7 @@ router.get("/:id", (req, res) => {
       },
     ],
   })
+  //  dbProductData is the response from the Product model
     .then((dbProductData) => {
       if (!dbProductData) {
         res.status(404).json({ message: "No product found with this id" });
@@ -52,6 +58,7 @@ router.get("/:id", (req, res) => {
       }
       res.json(dbProductData);
     })
+    // if an error occurs, return a 500 error
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -98,6 +105,7 @@ router.put("/:id", (req, res) => {
       id: req.params.id,
     },
   })
+  // dbProductData is the response from the Product model
     .then((product) => {
       if (req.body.tagIds && req.body.tagIds.length) {
         const productTags = ProductTag.findAll({
@@ -140,6 +148,7 @@ router.delete("/:id", (req, res) => {
       id: req.params.id,
     },
   })
+  // dbProductData is the response from the Product model
     .then((dbProductData) => {
       if (!dbProductData) {
         res.status(404).json({ message: "No product found with this id" });
@@ -147,6 +156,7 @@ router.delete("/:id", (req, res) => {
       }
       res.json(dbProductData);
     })
+    // if an error occurs, return a 500 error
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);

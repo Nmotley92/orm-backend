@@ -32,6 +32,8 @@ router.get('/:id', (req, res) => {
     where: {
       id: req.params.id,
     },
+    // include: used to include the Product model data in the response from the Category model
+    // attributes: used to specify which columns to return from the Product model
     include: [
       {
         model: Product,
@@ -39,6 +41,7 @@ router.get('/:id', (req, res) => {
       },
     ],
   })
+  // dbCategoryData is the response from the Category model
     .then((dbCategoryData) => {
       if (!dbCategoryData) {
         res.status(404).json({ message: 'No category found with this id' });
@@ -47,6 +50,7 @@ router.get('/:id', (req, res) => {
       res.json(dbCategoryData);
 
     })
+    // 500 status code is used to indicate that the server encountered an unexpected condition that prevented it from fulfilling the request
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -62,7 +66,9 @@ router.post('/', (req, res) => {
   Category.create({
     category_name: req.body.category_name,
   })
+  // dbCategoryData is the response from the Category model
     .then((dbCategoryData) => res.json(dbCategoryData))
+    // 500 status code is used to indicate that the server encountered an unexpected condition that prevented it from fulfilling the request
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -76,6 +82,7 @@ router.put('/:id', (req, res) => {
       id: req.params.id,
     },
   })
+  // dbCategoryData is the response from the Category model
     .then((dbCategoryData) => {
       if (!dbCategoryData) {
         res.status(404).json({ message: 'No category found with this id' });
@@ -84,6 +91,7 @@ router.put('/:id', (req, res) => {
       res.json(dbCategoryData);
     }
     )
+    // 500 status code is used to indicate that the server encountered an unexpected condition that prevented it from fulfilling the request
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -98,6 +106,7 @@ router.delete('/:id', (req, res) => {
       id: req.params.id,
     },
   })
+  // dbCategoryData is the response from the Category model
     .then((dbCategoryData) => {
       if (!dbCategoryData) {
         res.status(404).json({ message: 'No category found with this id' });
@@ -106,6 +115,7 @@ router.delete('/:id', (req, res) => {
       res.json(dbCategoryData);
     } 
     )
+    // 500 status code is used to indicate that the server encountered an unexpected condition that prevented it from fulfilling the request
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
